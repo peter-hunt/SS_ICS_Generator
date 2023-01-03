@@ -1,32 +1,34 @@
 p {
-    color: rgb(4,30,66);
-    text-align: center;
-    font-size: 20px;
-    padding: 30px;
+  color: rgb(4,30,66);
+  text-align: center;
+  font-size: 20px;
+  padding: 30px;
 }
+
 .credit{
-    border-top: 2px solid rgb(4,30,66);
+  border-top: 2px solid rgb(4,30,66);
 }
 
 .framed-info{
-    border-bottom: solid rgb(4,30,66);
-    width: 70%;
-    margin: auto;
-    padding: 20px;
-    margin-bottom: 20px;
+  border-bottom: solid rgb(4,30,66);
+  width: 70%;
+  margin: auto;
+  padding: 20px;
+  margin-bottom: 20px;
 }
+
 h1 {
-    background-color: rgb(4,30,66);
-    color: rgb(255,184,29);
-    border-style: solid;
-    font-size: 50px;
-    padding: 30px 20px;
+  background-color: rgb(4,30,66);
+  color: rgb(255,184,29);
+  border-style: solid;
+  font-size: 50px;
+  padding: 30px 20px;
 
 }
 
 h4 {
-    text-align: center;
-    color: red;
+  text-align: center;
+  color: red;
 }
 
 div.gallery {
@@ -35,174 +37,170 @@ div.gallery {
   border-bottom: 1px solid rgb(4,30,66);
   margin-bottom: 50px;
   margin-top: 50px;
-
 }
-
 
 div.gallery img {
   width: 100%;
   height: auto;
-
 }
 
 h3 {
-    text-align: center;
-    font-size: 50px;
+  text-align: center;
+  font-size: 50px;
 }
-img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 1fr;
-    padding: 50px;
 
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1fr;
+  padding: 50px;
 }
 
 body {
-    background-color: rgb(231,233,235);
-    padding: 0px 30px;
+  background-color: rgb(231,233,235);
+  padding: 0px 30px;
 }
 
 input {
-    width: 100%;
-    padding: 12px 20px;
-    margin: auto;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px 20px;
+  margin: auto;
+  box-sizing: border-box;
 }
 
 input[type = text] {
-    border: 3px solid rgb(224,184,29);
-    border-radius: 5px;
-    background-color: rgb(231,233,235);
+  border: 3px solid rgb(224,184,29);
+  border-radius: 5px;
+  background-color: rgb(231,233,235);
 }
 
 .studentID-input {
-    border-radius: 8px;
-    padding: 20px;
-    background-color: rgb(4,30,66);
-    color: rgb(225,184,29)
+  border-radius: 8px;
+  padding: 20px;
+  background-color: rgb(4,30,66);
+  color: rgb(225,184,29)
 }
 
 .course-input {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
-    border-radius: 8px;
-    padding: 20px;
-    background-color: rgb(4,30,66);
-    color: rgb(225,184,29)
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 20px;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: rgb(4,30,66);
+  color: rgb(225,184,29)
 }
 
 .checkboxes {
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 10px;
-    grid-gap: 5px;
-    width: 70%;
-    color: rgb(225,184,29);
-    border-left: 20px solid rgb(225,184,29);
-    border-bottom: 2px solid rgb(225,184,29);
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
+  grid-gap: 5px;
+  width: 70%;
+  color: rgb(225,184,29);
+  border-left: 20px solid rgb(225,184,29);
+  border-bottom: 2px solid rgb(225,184,29);
 }
 
 .checkbox {
-    display:grid;
-    grid-template-columns: 0.2fr 0.8fr;
+  display:grid;
+  grid-template-columns: 0.2fr 0.8fr;
 }
 
 input[type = submit] {
-    width: 100%;
-    font-size: 40px;
-    color: rgb(4,30,66);
-    background-color: rgb(225,184,29);
-    border: solid rgb(4,30,66);
-    border-radius: 10px;
+  width: 100%;
+  font-size: 40px;
+  color: rgb(4,30,66);
+  background-color: rgb(225,184,29);
+  border: solid rgb(4,30,66);
+  border-radius: 10px;
 }
 
 button {
-    font-size: 40px;
-    color: rgb(4,30,66);
-    background-color: rgb(225,184,29);
-    border: solid rgb(4,30,66);
-    border-radius: 10px;
+  font-size: 40px;
+  color: rgb(4,30,66);
+  background-color: rgb(225,184,29);
+  border: solid rgb(4,30,66);
+  border-radius: 10px;
 }
-
 
 div [class = text-in] {
-    width: 100%;
+  width: 100%;
 }
+
 .grid-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-    padding: 10fr;
-    width: 500px;
-    margin: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+  padding: 10fr;
+  width: 500px;
+  margin: auto;
 }
 
 .function-cell{
-    display: grid;
-    grid-template-rows: 0.6fr 0.2fr;
-    border: 6px solid rgb(225,184,29);
-    padding: 10px;
-    background-color: rgb(4,30,66);
-    border-radius: 8px;
+  display: grid;
+  grid-template-rows: 0.6fr 0.2fr;
+  border: 6px solid rgb(225,184,29);
+  padding: 10px;
+  background-color: rgb(4,30,66);
+  border-radius: 8px;
 }
 
 label {
-    border-bottom: 0.5px solid rgb(225,184,29);
-    text-align: left;
+  border-bottom: 0.5px solid rgb(225,184,29);
+  text-align: left;
 }
 
 .description {
-    color: rgb(225,184,29);
-    font-size: 20px;
-    padding: 5px;
-    margin: 5px,5px,5px,5px;
+  color: rgb(225,184,29);
+  font-size: 20px;
+  padding: 5px;
+  margin: 5px,5px,5px,5px;
 }
 
 .index-nav-btn {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .return-btn {
-    width: 0.33fr;
-    margin 10px 10px 0px 50px;
-    font-size: 20px;
+  width: 0.33fr;
+  margin: 10px 10px 0px 50px;
+  font-size: 20px;
 }
 
 .main-ele{
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 20px;
-
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
 }
 
 .text-in{
-    display: grid;
-    grid-template-rows;
-    grid-gap: 0px;
+  display: grid;
+  grid-template-rows;
+  grid-gap: 0px;
 }
 
 .search-page-div{
-    display: grid;
-    grid-template-rows 1fr 1fr;
-    grid-gap: 10px;
-    margin: auto;
-    width: 70%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 10px;
+  margin: auto;
+  width: 70%;
 }
 .teacher-list-div{
-    display: grid;
-    grid-template-rows 1fr 1fr;
-    grid-gap: 5px;
-    margin: auto;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 5px;
+  margin: auto;
 }
 input[type = file]::file-selector-button {
-    border: 2px solid rgb(225,184,29);
-    padding: 0px;
-    border-radius: 0px;
-    color: rgb(4,30,66);
-    height = 200%;
-    width = 200%;
+  border: 2px solid rgb(225,184,29);
+  padding: 0px;
+  border-radius: 0px;
+  color: rgb(4,30,66);
+  height: 200%;
+  width: 200%;
 }
