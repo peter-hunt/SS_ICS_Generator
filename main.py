@@ -1,4 +1,5 @@
-from datetime import datetime
+from dataclasses import dataclass
+from datetime import date, datetime
 from pathlib import Path
 from random import randint
 
@@ -10,7 +11,7 @@ from pdfminer.high_level import extract_text
 #     --label flask-container --image flask --region ca-central-1
 
 
-periodMap = [
+period_map = [
     ['A', 'B', 'C', 'D', 'E', 'F'],
     ['G', 'D', 'E', 'H', 'A', 'B'],
     ['F', 'H', 'A', 'C', 'G', 'D'],
@@ -22,7 +23,7 @@ periodMap = [
 ]
 
 # for these two maps, index 0 is for regular day and index 1 is for wednesdays
-startTimeMap = [
+start_time_map = [
     [
         # Normal Day schedule
         ['081500', '081500'],
@@ -42,7 +43,7 @@ startTimeMap = [
         ['143500', '143500'],
     ]
 ]
-endTimeMap = [
+end_time_map = [
     [
         # Normal schedule
         ['090500', '090500'],
@@ -64,25 +65,25 @@ endTimeMap = [
 ]
 
 
+@dataclass
 class Course:
-    def __init__(self, name, block, lab, late):
-        self.name = name
-        self.block = block
-        self.lab = lab
-        self.late = late
+    name: str
+    block: str
+    is_lab: bool
+    is_late: bool
 
 
+@dataclass
 class StudentSchedule:
-    def __init__(self, student_id, A, B, C, D, E, F, G, H):
-        self.student_id = student_id
-        self.A = A
-        self.B = B
-        self.C = C
-        self.D = D
-        self.E = E
-        self.F = F
-        self.G = G
-        self.H = H
+    student_id: str
+    A: Course
+    B: Course
+    C: Course
+    D: Course
+    E: Course
+    F: Course
+    G: Course
+    H: Course
 
     def courseObj(self, label):
         if label not in {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'}:
@@ -92,18 +93,18 @@ class StudentSchedule:
 
 
 def get_starttime(index, late, wed):
-    return startTimeMap[int(wed)][index - 1][int(late)]
+    return start_time_map[int(wed)][index - 1][int(late)]
 
 
 def get_endtime(index, late, wed, is_lab):
     if index in {1, 4} and is_lab:
-        return endTimeMap[int(wed)][index][int(late)]
+        return end_time_map[int(wed)][index][int(late)]
     else:
-        return endTimeMap[int(wed)][index - 1][int(late)]
+        return end_time_map[int(wed)][index - 1][int(late)]
 
 
 def period(day, period_):
-    return periodMap[day][period_]
+    return period_map[day][period_]
 
 
 def random_UID():
@@ -114,12 +115,12 @@ def random_UID():
     return f'4F2F7F11-{d}-{c}-{b}-6634746{a}'
 
 
-def new_event(name, start_time, end_time, location, time, file):
+def new_event(name: str, start_time, end_time, location, time: datetime, file):
     """
         OK this function is kinda poop, it would be better if startTime and
     endTime parameter can be passed through as dateTime object.
 
-    This would require some changes in the startTimeMap and endTimeMap arrays.
+    This would require some changes in the start_time_map and end_time_map arrays.
     It would also need the complete restructure of the algorithm.
     """
 
@@ -204,84 +205,83 @@ def index():
 
 @app.route('/fill_schedule', methods=['POST', 'GET'])
 def fillSchedulePage():
-    global studentSchedule
-    global studentID
-    global prevStudentID
+    global student_schedule
+    global student_id
+    global prev_student_id
     if request.method == 'POST':
-        studentID = request.form['studentID']
-        blockA = Course(request.form['blockA'], 'A',
-                        is_checked(request.form.get('blockAlab', False)),
-                        is_checked(request.form.get('blockAlate', False)))
-        blockB = Course(request.form['blockB'], 'B',
-                        is_checked(request.form.get('blockBlab', False)),
-                        is_checked(request.form.get('blockBlate', False)))
-        blockC = Course(request.form['blockC'], 'C',
-                        is_checked(request.form.get('blockClab', False)),
-                        is_checked(request.form.get('blockClate', False)))
-        blockD = Course(request.form['blockD'], 'D',
-                        is_checked(request.form.get('blockDlab', False)),
-                        is_checked(request.form.get('blockDlate', False)))
-        blockE = Course(request.form['blockE'], 'E',
-                        is_checked(request.form.get('blockElab', False)),
-                        is_checked(request.form.get('blockElate', False)))
-        blockF = Course(request.form['blockF'], 'F',
-                        is_checked(request.form.get('blockFlab', False)),
-                        is_checked(request.form.get('blockFlate', False)))
-        blockG = Course(request.form['blockG'], 'G',
-                        is_checked(request.form.get('blockGlab', False)),
-                        is_checked(request.form.get('blockGlate', False)))
-        blockH = Course(request.form['blockH'], 'H',
-                        is_checked(request.form.get('blockHlab', False)),
-                        is_checked(request.form.get('blockHlate', False)))
-        studentSchedule = StudentSchedule(
-            studentID, blockA, blockB, blockC, blockD,
-            blockE, blockF, blockG, blockH,
+        student_id = request.form['studentID']
+        student_schedule = StudentSchedule(
+            student_id,
+            Course(request.form['blockA'], 'A',
+                   is_checked(request.form.get('blockAlab', False)),
+                   is_checked(request.form.get('blockAlate', False))),
+            Course(request.form['blockB'], 'B',
+                   is_checked(request.form.get('blockBlab', False)),
+                   is_checked(request.form.get('blockBlate', False))),
+            Course(request.form['blockC'], 'C',
+                   is_checked(request.form.get('blockClab', False)),
+                   is_checked(request.form.get('blockClate', False))),
+            Course(request.form['blockD'], 'D',
+                   is_checked(request.form.get('blockDlab', False)),
+                   is_checked(request.form.get('blockDlate', False))),
+            Course(request.form['blockE'], 'E',
+                   is_checked(request.form.get('blockElab', False)),
+                   is_checked(request.form.get('blockElate', False))),
+            Course(request.form['blockF'], 'F',
+                   is_checked(request.form.get('blockFlab', False)),
+                   is_checked(request.form.get('blockFlate', False))),
+            Course(request.form['blockG'], 'G',
+                   is_checked(request.form.get('blockGlab', False)),
+                   is_checked(request.form.get('blockGlate', False))),
+            Course(request.form['blockH'], 'H',
+                   is_checked(request.form.get('blockHlab', False)),
+                   is_checked(request.form.get('blockHlate', False))),
         )
 
-        cycleDayMap = []
+        cycle_day_map = []
         with open('blockSchedule.txt') as file:
-            currentTime = datetime.now()
+            current_time = datetime.now()
             for lineTxt in file.read().strip().split('\n'):
                 txt = lineTxt.split('+')
-                timeObj = datetime.strptime(txt[0], '%A,%b%d').replace(
-                    year=currentTime.year)
-                data = [timeObj, txt[1]]
-                cycleDayMap.append(data)
+                time_obj = datetime.strptime(txt[0], '%A,%b%d').replace(
+                    year=current_time.year)
+                data = [time_obj, txt[1]]
+                cycle_day_map.append(data)
 
-        dateLst = []
-        courseNameLst = []
-        startTimeLst = []
-        endTimeLst = []
+        dates = []
+        course_names = []
+        start_times = []
+        end_times = []
 
-        for day in cycleDayMap:
-            periodLst = periodMap[int(day[1]) - 1]
-            periodNum = 1
-            isWed = int(day[0].strftime('%w') == '3')
-            for i in periodLst:
-                if studentSchedule.courseObj(i).name != '':
-                    dateLst.append(day[0])
-                    courseNameLst.append(studentSchedule.courseObj(i).name)
-                    startTimeLst.append(get_starttime(
-                        periodNum, studentSchedule.courseObj(i).late, isWed))
-                    endTimeLst.append(
+        for day in cycle_day_map:
+            periods = period_map[int(day[1]) - 1]
+            period_num = 1
+            isWed = date(day[0].year, day).weekday() == 2
+            for i in periods:
+                if student_schedule.courseObj(i).name != '':
+                    dates.append(day[0])
+                    course_names.append(student_schedule.courseObj(i).name)
+                    start_times.append(get_starttime(
+                        period_num, student_schedule.courseObj(i).is_late, isWed))
+                    end_times.append(
                         get_endtime(
-                            periodNum, studentSchedule.courseObj(i).late,
-                            isWed, studentSchedule.courseObj(i).lab))
-                    print(f'{day[0]}={studentSchedule.courseObj(i).name}'
-                          f'={periodNum}\n')
-                periodNum += 1
+                            period_num, student_schedule.courseObj(i).is_late,
+                            isWed, student_schedule.courseObj(i).is_lab))
+                    print(f'{day[0]}={student_schedule.courseObj(i).name}'
+                          f'={period_num}\n')
+                period_num += 1
 
-        with open(f'{studentSchedule.student_id}_schedule.ics', 'w') as file:
+        with open(f'{student_schedule.student_id}_schedule.ics', 'w') as file:
             file.write(headings_str)
-            for i in range(len(dateLst)):
-                new_event(courseNameLst[i], startTimeLst[i], endTimeLst[i],
-                          'School', dateLst[i], file)
+            for i in range(len(dates)):
+                new_event(course_names[i], start_times[i], end_times[i],
+                          'School', dates[i], file)
             file.write('END:VCALENDAR')
 
-    if Path(f'{prevStudentID}.ics').is_file():
-        Path(f'{prevStudentID}.ics').unlink()
+    if Path(f'{prev_student_id}.ics').is_file():
+        Path(f'{prev_student_id}.ics').unlink()
 
-    prevStudentID = studentID
+    prev_student_id = student_id
 
     return redirect('/file_download', 302)
 
@@ -291,15 +291,15 @@ def file_downloads():
     try:
         return render_template('downloads.html')
     except Exception as e:
-        return str(e)
+        return f'{e}'
 
 
 @app.route('/return-files/')
 def sendFile():
     try:
-        return send_file(f'{studentID}_schedule.ics')
+        return send_file(f'{student_id}_schedule.ics')
     except Exception as e:
-        return str(e)
+        return f'{e}'
 
 
 @app.route('/adv-filler-page/')
@@ -309,45 +309,44 @@ def adv_filler():
 
 @app.route('/send-adv-schedule/', methods=['POST', 'GET'])
 def send_adv_schedule():
-    # Not completed backend!!!!
-    advScheduleLst = [[''] * 6 for i in range(8)]
+    # Backend not completed!!!!
+    adv_schedule_list = [[''] * 6 for _ in range(8)]
 
     for day in range(8):
         for prd in range(6):
-            inputId = f'day-{day+1}-period-{prd+1}-in'
-            advScheduleLst[day][prd] = request.form[inputId]
-    studentID_adv = request.form['stu-id-in']
+            input_id = f'day-{day + 1}-period-{prd + 1}-in'
+            adv_schedule_list[day][prd] = request.form[input_id]
+    student_id_adv = request.form['stu-id-in']
     # Input processing wrote into 2D lst
     cycleDays = []
     with open('blockSchedule.txt') as file:
-        currentTime = datetime.now()
+        current_time = datetime.now()
         for line in file.strip().split('\n'):
             txt = line.split('+')
-            timeObj = datetime.strptime(txt[0], '%A,%b%d').replace(
-                year=currentTime.year)
-            data = [timeObj, int(txt[1])]
+            time_obj = datetime.strptime(txt[0], '%A,%b%d').replace(
+                year=current_time.year)
+            data = [time_obj, int(txt[1])]
             cycleDays.append(data)
             print(data)
     # Pulled cycle day schedule from file
-    with open(studentID_adv+'_schedule.ics', 'w') as file:
+    with open(f'{student_id_adv}_schedule.ics', 'w') as file:
         file.write(headings_str)
-
         for day in cycleDays:
             for p in range(6):
                 print(day[1])
-                if advScheduleLst[day[1]-1][p] != '':
-                    isWed = day[0].strftime('%w') == '3'
-                    new_event(advScheduleLst[day[1]-1][p],
-                              get_starttime(p+1, False, isWed),
-                              get_endtime(p+1, True, isWed, False),
+                if adv_schedule_list[day[1] - 1][p] != '':
+                    isWed = date(day[0].year, day).weekday() == 2
+                    new_event(adv_schedule_list[day[1] - 1][p],
+                              get_starttime(p + 1, False, isWed),
+                              get_endtime(p + 1, True, isWed, False),
                               'School', day[0], file)
         file.write('END:VCALENDAR')
 
     try:
-        fileName = f'{studentID_adv}_schedule.ics'
+        fileName = f'{student_id_adv}_schedule.ics'
         return send_file(fileName)
     except Exception as e:
-        return str(e)
+        return f'{e}'
 
 
 @app.route('/ocr-filler/')
@@ -360,12 +359,12 @@ def download_ocr_file():
     try:
         return send_file('Your Schedule.ics')
     except Exception as e:
-        return str(e)
+        return f'{e}'
 
 
 @app.route('/send-ocr-schedule/', methods=['POST', 'GET'])
 def send_ocr_schedule():
-    global prevStudentID
+    global prev_student_id
     if request.method == 'POST':
         pdfFile = request.files['schedule-pdf']
         pdfFile.save('temp.pdf')
@@ -396,34 +395,34 @@ def send_ocr_schedule():
                     lateList[current_period] = int(periodInfoStr[-1] == 'L')
 
         print(blocksList)
-        cycleDayMap = []
+        cycle_day_map = []
         with open('blockSchedule.txt', 'r') as file:
-            currentTime = datetime.now()
+            current_time = datetime.now()
             for line in file.read().strip().split('\n'):
                 txt = line.split('+')
-                timeObj = datetime.strptime(txt[0], '%A,%b%d').replace(
-                    year=currentTime.year)
-                data = [timeObj, txt[1]]
-                cycleDayMap.append(data)
+                time_obj = datetime.strptime(txt[0], '%A,%b%d').replace(
+                    year=current_time.year)
+                data = [time_obj, txt[1]]
+                cycle_day_map.append(data)
 
-        print(cycleDayMap)
+        print(cycle_day_map)
 
         with open('Your Schedule.ics', 'w') as file:
             file.write(headings_str)
 
-            for day in cycleDayMap:
-                periodLst = periodMap[int(day[1]) - 1]
-                periodNum = 1
-                isWed = int(day[0].strftime('%w') == '3')
-                for i in periodLst:
+            for day in cycle_day_map:
+                periods = period_map[int(day[1]) - 1]
+                period_num = 1
+                isWed = date(day[0].year, day).weekday() == 2
+                for i in periods:
                     j = 'ABCDEFGH'.index(i)
                     if blocksList[j] != '':
                         new_event(
                             blocksList[j],
-                            get_starttime(periodNum, lateList[j], isWed),
-                            get_endtime(periodNum, lateList[j], isWed, 0),
+                            get_starttime(period_num, lateList[j], isWed),
+                            get_endtime(period_num, lateList[j], isWed, 0),
                             locationList[j], day[0], file)
-                    periodNum += 1
+                    period_num += 1
 
             file.write('END:VCALENDAR')
 

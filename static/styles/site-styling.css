@@ -5,11 +5,11 @@ p {
   padding: 30px;
 }
 
-.credit{
+.credit {
   border-top: 2px solid rgb(4,30,66);
 }
 
-.framed-info{
+.framed-info {
   border-bottom: solid rgb(4,30,66);
   width: 70%;
   margin: auto;
@@ -167,35 +167,36 @@ label {
 
 .return-btn {
   width: 0.33fr;
-  margin: 10px 10px 0px 50px;
+  /* margin: 10px 10px 0px 50px; */
   font-size: 20px;
 }
 
-.main-ele{
+.main-ele {
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 20px;
 }
 
-.text-in{
+.text-in {
   display: grid;
   grid-template-rows;
   grid-gap: 0px;
 }
 
-.search-page-div{
+.search-page-div {
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-gap: 10px;
   margin: auto;
   width: 70%;
 }
-.teacher-list-div{
+.teacher-list-div {
   display: grid;
   grid-template-rows: 1fr 1fr;
   grid-gap: 5px;
   margin: auto;
 }
+
 input[type = file]::file-selector-button {
   border: 2px solid rgb(225,184,29);
   padding: 0px;
